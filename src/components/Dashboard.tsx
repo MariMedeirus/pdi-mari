@@ -47,7 +47,7 @@ export function Dashboard({
         </p>
         <h1>
           <span className="tok-tag">&lt;</span>
-          Mariana Mederios
+          Mariana Medeiros
           <span className="tok-tag"> /&gt;</span>
         </h1>
         <p className="lede">
@@ -130,7 +130,11 @@ export function Dashboard({
           </strong>
           <span>Tarefas abertas</span>
         </button>
-        <button type="button" className="stat-card" onClick={() => onNavigate('atividades')}>
+        <button
+          type="button"
+          className="stat-card tall"
+          onClick={() => onNavigate('atividades')}
+        >
           <strong>{state.activities.length}</strong>
           <span>Atividades práticas</span>
         </button>

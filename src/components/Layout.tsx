@@ -51,10 +51,10 @@ export function Layout({
           <img
             className="brand-photo"
             src={portrait}
-            alt="Mariana Mederios"
+            alt="Mariana Medeiros"
           />
           <div className="text-start">
-            <strong>Mariana Mederios</strong>
+            <strong>Mariana Medeiros</strong>
             <span>Backend · Estágio</span>
           </div>
         </div>
