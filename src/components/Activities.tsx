@@ -296,7 +296,7 @@ export function Activities() {
           </fieldset>
           <fieldset className="skill-picker">
             <legend>Skills comportamentais cadastradas</legend>
-            <p className="hint">Marque os pilares de postura que essa atividade puxou.</p>
+            <p className="hint">Marque os pilares de postura que essa atividade usou.</p>
             <div className="picker-grid">
               {behPillars.map((pillar) => (
                 <label key={pillar.id} className="picker-item">
