@@ -238,8 +238,29 @@ select {
   box-shadow: inset 3px 0 0 var(--accent);
 }
 
-.sidebar-note {
+.sidebar-foot {
   margin-top: auto;
+  display: grid;
+  gap: 12px;
+}
+
+.backup-bar {
+  display: grid;
+  gap: 8px;
+}
+
+.backup-bar .btn {
+  width: 100%;
+}
+
+.backup-feedback {
+  margin: 0;
+  color: var(--accent-hot);
+  font-size: 0.72rem;
+  font-family: var(--mono);
+}
+
+.sidebar-note {
   color: var(--muted);
   font-size: 0.76rem;
 }
@@ -1067,7 +1088,7 @@ main {
   display: grid;
   place-items: center;
   padding: 20px;
-  z-index: 20;
+  z-index: 50;
 }
 
 .modal {

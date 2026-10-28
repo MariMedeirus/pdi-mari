@@ -175,6 +175,8 @@ function reducer(state: PlannerState, action: PlannerAction): PlannerState {
         ...state,
         tasks: state.tasks.filter((task) => task.id !== action.id),
       }
+    case 'replace-state':
+      return action.state
     default:
       return state
   }
@@ -249,4 +251,44 @@ export function usePlanner() {
 
 export function uid(prefix: string) {
   return `${prefix}-${crypto.randomUUID()}`
+}
+
+export function buildBackup(state: PlannerState) {
+  return {
+    app: 'mariana-mederios-planner',
+    exportedAt: new Date().toISOString(),
+    seedVersion: SEED_VERSION,
+    state,
+  }
+}
+
+export function normalizeImportedState(raw: unknown): PlannerState {
+  if (!raw || typeof raw !== 'object') throw new Error('invalid')
+  const data = raw as Record<string, unknown>
+  const inner =
+    data.state && typeof data.state === 'object'
+      ? (data.state as Record<string, unknown>)
+      : data
+
+  if (
+    !Array.isArray(inner.courses) ||
+    !Array.isArray(inner.pillars) ||
+    !Array.isArray(inner.goals) ||
+    !Array.isArray(inner.topics)
+  ) {
+    throw new Error('invalid')
+  }
+
+  const removedCheckIds = Array.isArray(inner.removedCheckIds)
+    ? inner.removedCheckIds.filter((id): id is string => typeof id === 'string')
+    : []
+
+  return {
+    courses: inner.courses,
+    goals: inner.goals,
+    topics: inner.topics,
+    tasks: Array.isArray(inner.tasks) ? inner.tasks : seedState.tasks,
+    removedCheckIds,
+    pillars: mergePillars(inner.pillars, seedState.pillars, removedCheckIds),
+  }
 }

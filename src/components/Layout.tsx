@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import portrait from '../assets/mariana.png'
 import type { SectionId } from '../types'
+import { BackupBar } from './Backup'
 
 const nav: { id: SectionId; label: string; kicker: string }[] = [
   { id: 'inicio', label: 'Início', kicker: 'Visão geral' },
@@ -57,9 +58,13 @@ export function Layout({
             </button>
           ))}
         </nav>
-        <p className="sidebar-note">
-          Tudo fica salvo neste navegador (Local Storage).
-        </p>
+        <div className="sidebar-foot">
+          <BackupBar />
+          <p className="sidebar-note">
+            Tudo fica salvo neste navegador. Baixe um backup para não perder o
+            plano.
+          </p>
+        </div>
       </aside>
       {menuOpen && (
         <button

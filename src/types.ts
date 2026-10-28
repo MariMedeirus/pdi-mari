@@ -98,3 +98,4 @@ export type PlannerAction =
   | { type: 'add-task'; task: WorkTask }
   | { type: 'update-task'; task: WorkTask }
   | { type: 'delete-task'; id: string }
+  | { type: 'replace-state'; state: PlannerState }
