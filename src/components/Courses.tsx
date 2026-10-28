@@ -1,4 +1,5 @@
 import { useMemo, useState, type FormEvent } from 'react'
+import { formatDeadline } from '../dates'
 import type { Course, CourseStatus } from '../types'
 import { uid, usePlanner } from '../store'
 import { DeleteButton } from './Icons'
@@ -17,6 +18,7 @@ const emptyCourse = (): Course => ({
   status: 'futuro',
   notes: '',
   url: '',
+  deadline: '',
 })
 
 export function Courses() {
@@ -80,7 +82,14 @@ export function Courses() {
               grouped[column.status].map((course) => (
                 <article key={course.id} className="course-card">
                   <h3>{course.title}</h3>
-                  <p className="muted">{course.platform || 'Plataforma livre'}</p>
+                  <div className="goal-top">
+                    <p className="muted">{course.platform || 'Plataforma livre'}</p>
+                    {course.deadline && (
+                      <time className="muted" dateTime={course.deadline}>
+                        até {formatDeadline(course.deadline)}
+                      </time>
+                    )}
+                  </div>
                   {course.notes && <p>{course.notes}</p>}
                   {course.url && (
                     <a href={course.url} target="_blank" rel="noreferrer">
@@ -162,6 +171,13 @@ export function Courses() {
               <option value="futuro">Futuro</option>
               <option value="realizado">Realizado</option>
             </select>
+          </Field>
+          <Field label="Prazo (opcional)">
+            <input
+              type="date"
+              value={draft.deadline ?? ''}
+              onChange={(e) => setDraft({ ...draft, deadline: e.target.value })}
+            />
           </Field>
           <Field label="Link (opcional)">
             <input

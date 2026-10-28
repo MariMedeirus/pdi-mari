@@ -1200,6 +1200,7 @@ export const seedState: PlannerState = {
       notes:
         'Revisitar status codes, headers e idempotência ligando cada ideia a um endpoint do estágio.',
       url: '',
+      deadline: '',
     },
     {
       id: 'course-sql',
@@ -1208,6 +1209,7 @@ export const seedState: PlannerState = {
       status: 'em_andamento',
       notes: 'JOIN, índice, EXPLAIN e transação — com queries do projeto real.',
       url: '',
+      deadline: '',
     },
     {
       id: 'course-git',
@@ -1216,6 +1218,7 @@ export const seedState: PlannerState = {
       status: 'realizado',
       notes: 'Rotina de branch, commit e review. Ajustar conforme o fluxo real do time.',
       url: '',
+      deadline: '',
     },
     {
       id: 'course-obs',
@@ -1224,6 +1227,7 @@ export const seedState: PlannerState = {
       status: 'futuro',
       notes: 'Objetivo: instrumentar um fluxo do estágio e ler o próprio dashboard.',
       url: '',
+      deadline: '',
     },
     {
       id: 'course-docker',
@@ -1232,6 +1236,7 @@ export const seedState: PlannerState = {
       status: 'futuro',
       notes: 'Subir a stack local com confiança e entender a imagem que vai para o ambiente.',
       url: '',
+      deadline: '',
     },
     {
       id: 'course-tests',
@@ -1240,6 +1245,7 @@ export const seedState: PlannerState = {
       status: 'futuro',
       notes: 'Unitário no domínio + integração no endpoint crítico.',
       url: '',
+      deadline: '',
     },
   ],
   pillars,
@@ -1327,6 +1333,7 @@ export const seedState: PlannerState = {
         'Reproduzir o erro, seguir o request nos logs e deixar o caminho de falha mais claro para a próxima vez.',
       status: 'em_andamento',
       date: 'Hoje',
+      deadline: '',
       skillIds: ['tec-observabilidade', 'tec-fundamentos'],
       notes: '',
     },
@@ -1337,6 +1344,7 @@ export const seedState: PlannerState = {
         'Ler o diff com olhar de backend: contrato, erro, teste e se o log ajuda a debugar.',
       status: 'a_fazer',
       date: 'Esta semana',
+      deadline: '',
       skillIds: ['tec-qualidade', 'beh-colaboracao'],
       notes: '',
     },
@@ -1347,8 +1355,31 @@ export const seedState: PlannerState = {
         'Entender o plano, anotar o que pesa e propor índice ou recorte se fizer sentido.',
       status: 'feita',
       date: 'Ontem',
+      deadline: '',
       skillIds: ['tec-banco', 'tec-custos'],
       notes: 'Aprendi a olhar seq scan vs index scan com o time.',
+    },
+  ],
+  activities: [
+    {
+      id: 'act-explain',
+      title: 'Otimização da query lenta do relatório',
+      context: 'Estágio',
+      period: 'Outubro 2026',
+      description:
+        'Peguei a consulta mais pesada do relatório, rodei EXPLAIN com o time, comparei seq scan e index scan e propus um índice que fazia sentido no uso real.',
+      skillsNote: 'EXPLAIN, plano de execução, índice, leitura de query com o time.',
+      skillIds: ['tec-banco', 'tec-custos', 'beh-colaboracao', 'beh-aprendizado'],
+    },
+    {
+      id: 'act-onboarding',
+      title: 'Primeira leitura do fluxo de um request no sistema',
+      context: 'Estágio',
+      period: 'Início do estágio',
+      description:
+        'Desenhei o caminho do client ao banco e de volta: handler, serviço, repositório, logs no meio. Usei isso para me localizar nos tickets seguintes.',
+      skillsNote: 'HTTP, camadas da aplicação, logs, mapa mental do produto.',
+      skillIds: ['tec-fundamentos', 'tec-observabilidade', 'beh-ownership'],
     },
   ],
   removedCheckIds: [],

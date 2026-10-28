@@ -1,7 +1,14 @@
-import type { GoalStatus, SectionId } from '../types'
+import { formatDeadline } from '../dates'
+import type { GoalStatus, SectionId, TaskStatus } from '../types'
 import { usePlanner } from '../store'
 import { EmptyState } from './Modal'
 import { ProgressBar, ProgressRing } from './Progress'
+
+const taskStatusLabel: Record<TaskStatus, string> = {
+  a_fazer: 'A fazer',
+  em_andamento: 'Em andamento',
+  feita: 'Feita',
+}
 
 const weekStatus: Record<GoalStatus, string> = {
   nao_iniciada: 'Não iniciada',
@@ -14,7 +21,8 @@ export function Dashboard({
 }: {
   onNavigate: (id: SectionId) => void
 }) {
-  const { state, pillarProgress, categoryProgress, juniorReadiness } = usePlanner()
+  const { state, dispatch, pillarProgress, categoryProgress, juniorReadiness } =
+    usePlanner()
   const tech = categoryProgress('tecnica')
   const beh = categoryProgress('comportamental')
   const pendingTopics = state.topics.filter((t) => t.status === 'pendente').length
@@ -22,6 +30,12 @@ export function Dashboard({
   const openGoals = state.goals.filter((g) => g.status !== 'concluida').length
   const weekGoals = state.goals.filter((g) => g.horizon === 'curto')
   const weekDone = weekGoals.filter((g) => g.status === 'concluida').length
+  const openTasks = state.tasks
+    .filter((task) => task.status !== 'feita')
+    .sort((left, right) => {
+      if (left.status === right.status) return 0
+      return left.status === 'em_andamento' ? -1 : 1
+    })
 
   const techPillars = state.pillars.filter((p) => p.category === 'tecnica')
 
@@ -116,6 +130,99 @@ export function Dashboard({
           </strong>
           <span>Tarefas abertas</span>
         </button>
+        <button type="button" className="stat-card" onClick={() => onNavigate('atividades')}>
+          <strong>{state.activities.length}</strong>
+          <span>Atividades práticas</span>
+        </button>
+      </section>
+
+      <section className="today-board">
+        <header className="panel-head">
+          <div>
+            <p className="eyebrow">Dia a dia</p>
+            <h2>
+              <span className="tok-fn">tarefas</span>
+              <span className="tok-punc">.</span>
+              hoje
+              <span className="tok-punc">();</span>
+            </h2>
+          </div>
+          <button type="button" className="text-btn" onClick={() => onNavigate('tarefas')}>
+            Abrir quadro
+          </button>
+        </header>
+        {openTasks.length === 0 ? (
+          <EmptyState
+            title="Nada na mesa hoje"
+            text="Quando surgir um ticket, registre em Tarefas. O dia a dia mora aqui."
+          />
+        ) : (
+          <ul className="today-board-list">
+            {openTasks.map((task) => (
+              <li key={task.id}>
+                <article className="today-task">
+                  <div className="goal-top">
+                    <span className={`badge ${task.status}`}>
+                      {taskStatusLabel[task.status]}
+                    </span>
+                    {(task.date || task.deadline) && (
+                      <span className="muted">
+                        {task.date}
+                        {task.deadline && (
+                          <>
+                            {task.date ? ' · ' : ''}
+                            <time dateTime={task.deadline}>
+                              até {formatDeadline(task.deadline)}
+                            </time>
+                          </>
+                        )}
+                      </span>
+                    )}
+                  </div>
+                  <h3>{task.title}</h3>
+                  {task.description && <p>{task.description}</p>}
+                  {task.skillIds.length > 0 && (
+                    <ul className="tags">
+                      {task.skillIds.map((id) => {
+                        const pillar = state.pillars.find((item) => item.id === id)
+                        if (!pillar) return null
+                        return (
+                          <li
+                            key={id}
+                            style={{
+                              background: `${pillar.color}22`,
+                              color: pillar.color,
+                            }}
+                          >
+                            {pillar.name}
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  )}
+                  <div className="row-actions">
+                    <select
+                      value={task.status}
+                      onChange={(event) =>
+                        dispatch({
+                          type: 'update-task',
+                          task: {
+                            ...task,
+                            status: event.target.value as TaskStatus,
+                          },
+                        })
+                      }
+                    >
+                      <option value="a_fazer">A fazer</option>
+                      <option value="em_andamento">Em andamento</option>
+                      <option value="feita">Feita</option>
+                    </select>
+                  </div>
+                </article>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
 
       <section className="split">
@@ -170,6 +277,9 @@ export function Dashboard({
                   <div>
                     <strong>{goal.title}</strong>
                     {goal.description && <p className="muted">{goal.description}</p>}
+                    {goal.deadline && (
+                      <p className="muted">até {formatDeadline(goal.deadline)}</p>
+                    )}
                   </div>
                 </li>
               ))}

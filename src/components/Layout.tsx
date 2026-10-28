@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import portrait from '../assets/mariana.png'
 import type { SectionId } from '../types'
 import { BackupBar } from './Backup'
+import { LogoMark } from './Icons'
 
 const nav: { id: SectionId; label: string; kicker: string }[] = [
   { id: 'inicio', label: 'Início', kicker: 'Visão geral' },
@@ -11,6 +12,7 @@ const nav: { id: SectionId; label: string; kicker: string }[] = [
   { id: 'metas', label: 'Metas', kicker: 'Direção' },
   { id: 'topicos', label: 'Tópicos', kicker: 'Pesquisar' },
   { id: 'tarefas', label: 'Tarefas', kicker: 'Dia a dia' },
+  { id: 'atividades', label: 'Atividades', kicker: 'Prática' },
 ]
 
 export function Layout({
@@ -34,13 +36,24 @@ export function Layout({
   return (
     <div className="shell">
       <aside className={`sidebar ${menuOpen ? 'is-open' : ''}`}>
+        <div className="app-mark">
+          <LogoMark />
+          <div>
+            <strong>
+              <span className="tok-fn">plano</span>
+              <span className="tok-punc">.</span>
+              dev
+            </strong>
+            <span className="app-mark-kicker">estágio → júnior</span>
+          </div>
+        </div>
         <div className="brand">
           <img
             className="brand-photo"
             src={portrait}
             alt="Mariana Mederios"
           />
-          <div className='text-start'>
+          <div className="text-start">
             <strong>Mariana Mederios</strong>
             <span>Backend · Estágio</span>
           </div>
@@ -85,6 +98,7 @@ export function Layout({
             <span />
             <span />
           </button>
+          <LogoMark size={32} />
           <p>Plano de desenvolvimento · Mariana</p>
         </header>
         <main>

@@ -1,0 +1,7 @@
+export function formatDeadline(value: string) {
+  if (!value) return ''
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value)
+  if (!match) return value
+  const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]))
+  return date.toLocaleDateString('pt-BR')
+}

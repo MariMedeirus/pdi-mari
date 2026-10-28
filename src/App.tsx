@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Activities } from './components/Activities'
 import { Courses } from './components/Courses'
 import { Dashboard } from './components/Dashboard'
 import { Goals } from './components/Goals'
@@ -27,6 +28,7 @@ function Pages() {
       {section === 'metas' && <Goals />}
       {section === 'topicos' && <Topics />}
       {section === 'tarefas' && <Tasks />}
+      {section === 'atividades' && <Activities />}
     </Layout>
   )
 }

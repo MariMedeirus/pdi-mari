@@ -60,6 +60,7 @@ function loadState(): PlannerState {
       goals: saved.goals ?? seedState.goals,
       topics: saved.topics ?? seedState.topics,
       tasks: saved.tasks ?? seedState.tasks,
+      activities: saved.activities ?? seedState.activities,
       removedCheckIds,
       pillars: mergePillars(
         saved.pillars ?? [],
@@ -175,6 +176,20 @@ function reducer(state: PlannerState, action: PlannerAction): PlannerState {
         ...state,
         tasks: state.tasks.filter((task) => task.id !== action.id),
       }
+    case 'add-activity':
+      return { ...state, activities: [action.activity, ...state.activities] }
+    case 'update-activity':
+      return {
+        ...state,
+        activities: state.activities.map((activity) =>
+          activity.id === action.activity.id ? action.activity : activity,
+        ),
+      }
+    case 'delete-activity':
+      return {
+        ...state,
+        activities: state.activities.filter((activity) => activity.id !== action.id),
+      }
     case 'replace-state':
       return action.state
     default:
@@ -288,6 +303,9 @@ export function normalizeImportedState(raw: unknown): PlannerState {
     goals: inner.goals,
     topics: inner.topics,
     tasks: Array.isArray(inner.tasks) ? inner.tasks : seedState.tasks,
+    activities: Array.isArray(inner.activities)
+      ? inner.activities
+      : seedState.activities,
     removedCheckIds,
     pillars: mergePillars(inner.pillars, seedState.pillars, removedCheckIds),
   }

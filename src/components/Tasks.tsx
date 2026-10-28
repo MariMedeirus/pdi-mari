@@ -1,4 +1,5 @@
 import { useMemo, useState, type FormEvent } from 'react'
+import { formatDeadline } from '../dates'
 import type { TaskStatus, WorkTask } from '../types'
 import { uid, usePlanner } from '../store'
 import { DeleteButton } from './Icons'
@@ -16,6 +17,7 @@ const emptyTask = (): WorkTask => ({
   description: '',
   status: 'a_fazer',
   date: '',
+  deadline: '',
   skillIds: [],
   notes: '',
 })
@@ -100,7 +102,20 @@ export function Tasks() {
                     <span className={`badge ${task.status}`}>
                       {statusLabel[task.status]}
                     </span>
-                    {task.date && <span className="muted">{task.date}</span>}
+                    {(task.date ||
+                      (task.status !== 'feita' && task.deadline)) && (
+                      <span className="muted">
+                        {task.date}
+                        {task.status !== 'feita' && task.deadline && (
+                          <>
+                            {task.date ? ' · ' : ''}
+                            <time dateTime={task.deadline}>
+                              até {formatDeadline(task.deadline)}
+                            </time>
+                          </>
+                        )}
+                      </span>
+                    )}
                   </div>
                   <h3>{task.title}</h3>
                   {task.description && <p>{task.description}</p>}
@@ -197,6 +212,15 @@ export function Tasks() {
               </select>
             </Field>
           </div>
+          {draft.status !== 'feita' && (
+            <Field label="Prazo (opcional)">
+              <input
+                type="date"
+                value={draft.deadline ?? ''}
+                onChange={(e) => setDraft({ ...draft, deadline: e.target.value })}
+              />
+            </Field>
+          )}
           <Field label="O que você fez / está fazendo">
             <textarea
               rows={3}

@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { formatDeadline } from '../dates'
 import type { Goal, GoalHorizon, GoalStatus } from '../types'
 import { uid, usePlanner } from '../store'
 import { DeleteButton } from './Icons'
@@ -77,7 +78,11 @@ export function Goals() {
                   <article key={goal.id} className={`goal-card status-${goal.status}`}>
                     <div className="goal-top">
                       <span className={`badge ${goal.status}`}>{statusLabel[goal.status]}</span>
-                      {goal.deadline && <time>{goal.deadline}</time>}
+                      {goal.deadline && (
+                        <time dateTime={goal.deadline}>
+                          até {formatDeadline(goal.deadline)}
+                        </time>
+                      )}
                     </div>
                     <h3>{goal.title}</h3>
                     {goal.description && <p>{goal.description}</p>}
@@ -155,7 +160,7 @@ export function Goals() {
           <Field label="Prazo (opcional)">
             <input
               type="date"
-              value={draft.deadline}
+              value={draft.deadline ?? ''}
               onChange={(e) => setDraft({ ...draft, deadline: e.target.value })}
             />
           </Field>

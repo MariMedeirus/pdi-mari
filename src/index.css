@@ -170,6 +170,33 @@ select {
   border-right: 1px solid var(--line);
 }
 
+.app-mark {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.app-mark .logo-mark {
+  flex-shrink: 0;
+  border-radius: 22%;
+  box-shadow: var(--glow);
+}
+
+.app-mark strong {
+  display: block;
+  font-size: 0.92rem;
+  font-family: var(--mono);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.app-mark-kicker {
+  display: block;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-family: var(--mono);
+}
+
 .brand {
   display: flex;
   gap: 12px;
@@ -461,12 +488,77 @@ main {
   gap: 14px;
 }
 
+.today-board {
+  background:
+    radial-gradient(720px 220px at 0% -30%, rgba(168, 85, 247, 0.22), transparent 55%),
+    linear-gradient(180deg, #171525, var(--card));
+  border: 1px solid rgba(192, 132, 252, 0.42);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: var(--glow), var(--shadow);
+}
+
+.today-board .eyebrow {
+  margin-bottom: 6px;
+}
+
+.today-board-list {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.today-task {
+  display: grid;
+  gap: 14px;
+  height: 100%;
+  padding: 18px;
+  background: var(--inset);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  box-shadow: 0 16px 36px -28px rgba(168, 85, 247, 0.7);
+  transition:
+    border-color 0.2s var(--ease),
+    transform 0.2s var(--ease),
+    box-shadow 0.2s var(--ease);
+}
+
+.today-task:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: var(--glow);
+}
+
+.today-task h3,
+.today-task p {
+  margin: 0;
+}
+
+.today-task p {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.today-task .tags {
+  margin: 0;
+}
+
+.today-task .goal-top {
+  gap: 12px;
+}
+
 .panel,
 .course-card,
 .goal-card,
 .topic-card,
 .project-card,
 .task-card,
+.activity-card,
 .skill-detail {
   background: var(--card);
   border: 1px solid var(--line);
@@ -482,31 +574,38 @@ main {
 .course-card:hover,
 .goal-card:hover,
 .topic-card:hover,
-.task-card:hover {
+.task-card:hover,
+.activity-card:hover {
   border-color: var(--line-strong);
   transform: translateY(-2px);
 }
 
 .goal-card,
-.task-card {
+.task-card,
+.activity-card {
   display: grid;
   gap: 16px;
   padding: 20px;
 }
 
 .goal-card .goal-top,
-.task-card .goal-top {
+.task-card .goal-top,
+.activity-card .goal-top,
+.course-card .goal-top {
   gap: 16px;
 }
 
 .goal-card h3,
 .goal-card p,
 .task-card h3,
-.task-card p {
+.task-card p,
+.activity-card h3,
+.activity-card p {
   margin: 0;
 }
 
-.task-card .highlights {
+.task-card .highlights,
+.activity-card .highlights {
   margin: 0;
 }
 
@@ -516,9 +615,32 @@ main {
 }
 
 .goal-card .row-actions,
-.task-card .row-actions {
+.task-card .row-actions,
+.activity-card .row-actions {
   margin-top: 4px;
   gap: 16px;
+}
+
+.activity-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.activity-skills {
+  display: grid;
+  gap: 12px;
+}
+
+.activity-skills .eyebrow {
+  margin-bottom: 4px;
+}
+
+.activity-card .tags {
+  margin: 0;
+  gap: 8px;
 }
 
 .goals-grid .panel {
@@ -1153,6 +1275,23 @@ main {
   min-height: 88px;
 }
 
+.field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.field-row input {
+  flex: 1;
+  min-width: 0;
+  width: auto;
+}
+
+.field-row .btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
 .skill-picker {
   border: 1px dashed var(--line);
   border-radius: 12px;
@@ -1257,6 +1396,8 @@ main {
   .goal-card:hover,
   .topic-card:hover,
   .task-card:hover,
+  .activity-card:hover,
+  .today-task:hover,
   .btn:hover,
   .menu-btn:hover {
     transform: none;
@@ -1271,7 +1412,8 @@ main {
   .skills-layout,
   .project-grid,
   .form-grid,
-  .picker-grid {
+  .picker-grid,
+  .today-board-list {
     grid-template-columns: 1fr;
   }
 
@@ -1312,6 +1454,12 @@ main {
     align-items: center;
     gap: 12px;
     padding: 14px 16px 0;
+  }
+
+  .topbar .logo-mark {
+    flex-shrink: 0;
+    border-radius: 22%;
+    box-shadow: var(--glow);
   }
 
   .menu-btn {

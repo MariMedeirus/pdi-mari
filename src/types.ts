@@ -6,6 +6,7 @@ export type SectionId =
   | 'metas'
   | 'topicos'
   | 'tarefas'
+  | 'atividades'
 
 export type CourseStatus = 'realizado' | 'em_andamento' | 'futuro'
 
@@ -16,6 +17,7 @@ export interface Course {
   status: CourseStatus
   notes: string
   url: string
+  deadline: string
 }
 
 export type SkillCategory = 'tecnica' | 'comportamental'
@@ -69,8 +71,19 @@ export interface WorkTask {
   description: string
   status: TaskStatus
   date: string
+  deadline: string
   skillIds: string[]
   notes: string
+}
+
+export interface PracticeActivity {
+  id: string
+  title: string
+  context: string
+  period: string
+  description: string
+  skillsNote: string
+  skillIds: string[]
 }
 
 export interface PlannerState {
@@ -79,6 +92,7 @@ export interface PlannerState {
   goals: Goal[]
   topics: Topic[]
   tasks: WorkTask[]
+  activities: PracticeActivity[]
   removedCheckIds: string[]
 }
 
@@ -98,4 +112,7 @@ export type PlannerAction =
   | { type: 'add-task'; task: WorkTask }
   | { type: 'update-task'; task: WorkTask }
   | { type: 'delete-task'; id: string }
+  | { type: 'add-activity'; activity: PracticeActivity }
+  | { type: 'update-activity'; activity: PracticeActivity }
+  | { type: 'delete-activity'; id: string }
   | { type: 'replace-state'; state: PlannerState }
