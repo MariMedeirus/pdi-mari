@@ -210,95 +210,6 @@ const pillars: SkillPillar[] = [
     ],
   ),
   pillar(
-    'tec-custos',
-    'Custos e eficiência',
-    'Escrever código que funciona e que não infla a fatura: queries, recursos e senso de escala.',
-    'tecnica',
-    '#e879f9',
-    [
-      [
-        'Assumo que request, query e storage custam',
-        'Nada é “de graça” na cloud. Esse reflexo já muda o desenho da solução.',
-      ],
-      [
-        'Leio um billing em alto nível',
-        'Identifico as linhas grandes: compute, banco, logs, transferência, storage.',
-      ],
-      [
-        'Caço recurso idle',
-        'Instância, IP, volume, ambiente de teste ligado sem uso — pergunto se precisa.',
-      ],
-      [
-        'Entendo right-sizing',
-        'Superdimensionar “por medo” também é custo. Começar pequeno e medir.',
-      ],
-      [
-        'Respeito o volume de logs',
-        'Log demais em hot path encarece ingestão e atrapalha busca. Logue o que importa.',
-      ],
-      [
-        'Evito SELECT * e full scan',
-        'Busco só o necessário, com filtro e índice. Listagem sem limite é bandeira vermelha.',
-      ],
-      [
-        'Enxergo N+1 e loop de I/O',
-        'Query dentro de for, HTTP dentro de for — custo de latência e de conta.',
-      ],
-      [
-        'Uso cache com critério',
-        'Dado lido muito e alterado pouco. Sei invalidar ou aceitar stale com consciência.',
-      ],
-      [
-        'Questiono overprovisioning',
-        'Ambiente de dev não precisa espelhar prod em tamanho. Staging razoável basta.',
-      ],
-      [
-        'Entendo retenção de logs e arquivos',
-        'Guardar tudo para sempre é caro. Política de retenção é feature, não detalhe.',
-      ],
-      [
-        'Evito transferência desnecessária',
-        'Payloads enormes, chatiness e cópia entre regiões aparecem na fatura e na latência.',
-      ],
-      [
-        'Retries com backoff',
-        'Retry sem limite vira storm: derruba o serviço e multiplica custo.',
-      ],
-      [
-        'Reviso crons e jobs',
-        'Job que roda a cada minuto “porque sim” merece uma pergunta.',
-      ],
-      [
-        'Estimo ordem de grandeza',
-        'Barato, médio ou caro — consigo argumentar antes de implementar o caminho pesado.',
-      ],
-      [
-        'Pagino e limito listas',
-        'Não carrego milhares de registros para a memória da API “só dessa vez”.',
-      ],
-      [
-        'Penso no lifecycle de dados',
-        'Arquivos, eventos e linhas de auditoria envelhecem. Quem apaga? Quando?',
-      ],
-      [
-        'Pergunto se um serviço novo é necessário',
-        'Mais peça = mais custo, alerta e on-call. Às vezes um módulo resolve.',
-      ],
-      [
-        'Documento decisões que afetam custo',
-        'Por que cache, por que fila, por que instância maior — para o próximo review.',
-      ],
-      [
-        'Olho dependências pesadas',
-        'Lib enorme para um detalhe, imagem Docker inchada, build que baixa o mundo.',
-      ],
-      [
-        'Levo custo para a conversa da feature',
-        'Não como bloqueio, como tradeoff visível: “isso funciona, e custa X em escala”.',
-      ],
-    ],
-  ),
-  pillar(
     'tec-banco',
     'Banco de dados',
     'Modelar, consultar e evoluir dados sem medo: SQL, índices, transações e migrations.',
@@ -477,184 +388,6 @@ const pillars: SkillPillar[] = [
     ],
   ),
   pillar(
-    'tec-seguranca',
-    'Segurança',
-    'O mínimo inegociável para backend júnior: input, secrets, auth e os erros clássicos.',
-    'tecnica',
-    '#f9a8d4',
-    [
-      [
-        'Li um resumo do OWASP Top 10',
-        'Sei os nomes e um exemplo de cada. Não preciso ser pentester para não abrir buraco óbvio.',
-      ],
-      [
-        'Previno SQL injection',
-        'Prepared statement / query param. Nunca concatenar input na query.',
-      ],
-      [
-        'Entendo XSS mesmo em API',
-        'Se o backend devolve HTML ou o front interpola sem escape, o risco existe.',
-      ],
-      [
-        'Sei onde CSRF aparece',
-        'Cookie de sessão + ação de mudança. Token, SameSite e o modelo do time.',
-      ],
-      [
-        'Secrets fora do repositório',
-        'Vault, secret manager ou env do orquestrador. Rotação existe como ideia, não só como slide.',
-      ],
-      [
-        'Hash de senha do jeito certo',
-        'bcrypt/argon2 (ou o padrão do time). Nunca MD5/SHA1 “com salt caseiro”.',
-      ],
-      [
-        'HTTPS/TLS em alto nível',
-        'Dado em trânsito. Sem desligar verificação “só no ambiente X” por hábito.',
-      ],
-      [
-        'Valido e rejeito input perigoso',
-        'Tamanho, tipo, enum, arquivo. O backend é a fronteira.',
-      ],
-      [
-        'Princípio do menor privilégio',
-        'Usuário do banco, role da API, permissão de IAM — só o necessário.',
-      ],
-      [
-        'CORS não é `*` em produção',
-        'Sei o que CORS protege (e o que não protege). Origem explícita.',
-      ],
-      [
-        'Rate limiting contra abuso',
-        'Login, forgot-password e webhooks públicos não ficam abertos sem teto.',
-      ],
-      [
-        'Autentico a API de verdade',
-        'Token, API key ou mTLS — o que o contexto pede. Rota “interna” também precisa de critério.',
-      ],
-      [
-        'Expiração e revogação de token',
-        'Access curto, refresh controlado. Logout e user desativado têm efeito.',
-      ],
-      [
-        'Não expoho stack nem path interno',
-        'Erro genérico para o client, detalhe no log. Banner e versão também são info.',
-      ],
-      [
-        'Audito dependências',
-        'npm/yarn audit, Dependabot, OS packages. Lib abandonada é risco.',
-      ],
-      [
-        'IDOR no radar',
-        'Não basta o ID no payload. Confiro se aquele recurso pertence a quem chama.',
-      ],
-      [
-        'Upload com desconfiança',
-        'Tipo, tamanho, nome, onde salva. Arquivo do usuário não é executável do servidor.',
-      ],
-      [
-        'Headers de segurança básicos',
-        'Sei que existem (HSTS, nosniff, etc.) e onde o time configura.',
-      ],
-      [
-        'Logs sem segredo',
-        'Authorization, cookie e body de login não pingam no aggregator.',
-      ],
-      [
-        'Olho de segurança no review',
-        'Toda PR minha passa por: auth, input, dado sensível, permissão. É hábito, não checklist extra.',
-      ],
-    ],
-  ),
-  pillar(
-    'tec-infra',
-    'Infra, Docker e deploy',
-    'Do README ao ar: container, pipeline, ambientes e o mínimo para não temer o deploy.',
-    'tecnica',
-    '#94a3b8',
-    [
-      [
-        'Explico o que um container resolve',
-        'Mesmo runtime, isolamento leve, “funciona na minha máquina” com menos drama.',
-      ],
-      [
-        'Leio um Dockerfile simples',
-        'FROM, COPY, RUN, EXPOSE, CMD. Sei a diferença de imagem e container.',
-      ],
-      [
-        'Subo o projeto com Docker Compose',
-        'App + banco (+ fila, se houver) local, seguindo o README do time.',
-      ],
-      [
-        'Entendo registry de imagens',
-        'Build, tag, push, pull. Versão da imagem não é `latest` no susto em produção.',
-      ],
-      [
-        'Configuro o app por ambiente',
-        'Env vars no deploy. Dev, staging e prod não compartilham secret nem URL de banco.',
-      ],
-      [
-        'Sei o que o CI roda',
-        'Lint, teste, build. Se o pipeline vermelho, não é “depois eu vejo”.',
-      ],
-      [
-        'Entendo o caminho do CD',
-        'Como uma commit chega em staging/prod no time. Quem aprova, o que promove.',
-      ],
-      [
-        'Respeito os ambientes',
-        'Não testo experimentação em prod. Dado de prod não volta para o notebook.',
-      ],
-      [
-        'Sei que rollback precisa existir',
-        'Antes de um deploy arriscado, pergunto: como voltamos se der errado?',
-      ],
-      [
-        'Healthcheck no deploy',
-        'Orquestrador só manda tráfego se readiness passar. Deploy não é “processo up”.',
-      ],
-      [
-        'Achei os logs do ambiente',
-        'Sei a ferramenta (CloudWatch, Loki, Kibana…) e o filtro mínimo do serviço.',
-      ],
-      [
-        'Acesso com boa prática',
-        'SSH/bastion/SSO do time. Sem chave espalhada, sem prod no dia a dia.',
-      ],
-      [
-        'DNS até o servidor, em alto nível',
-        'Nome → load balancer → instâncias. Ajuda a debugar “não resolve” vs “500”.',
-      ],
-      [
-        'Explico o papel do load balancer',
-        'Distribui tráfego, healthcheck, TLS de borda. Não é mágica.',
-      ],
-      [
-        'Escala vertical vs horizontal',
-        'Máquina maior vs mais réplicas. Stateless ajuda a horizontal.',
-      ],
-      [
-        'Secrets no orquestrador, não no .env commitado',
-        'Sei onde o time coloca e como a app lê.',
-      ],
-      [
-        'Respeito freeze e janela de deploy',
-        'Combinados do time existem. Júnior confiável não ignora calendário.',
-      ],
-      [
-        'Artefato versionado',
-        'A build que foi para prod tem tag/commit. Consigo dizer o que está no ar.',
-      ],
-      [
-        'Runbook mínimo do serviço',
-        'Como subir local, como ver log, como health, quem chamar. Escrito, não só na cabeça.',
-      ],
-      [
-        'Sigo o README até o fim',
-        'Consigo deixar o projeto rodando local sem “só funciona na máquina da pessoa X”.',
-      ],
-    ],
-  ),
-  pillar(
     'tec-apis',
     'APIs e arquitetura',
     'Contratos, falhas parciais, filas e o desenho de sistemas que o júnior precisa conversar.',
@@ -740,6 +473,177 @@ const pillars: SkillPillar[] = [
       [
         'Explico a arquitetura do sistema em que trabalho',
         'Caixinhas, fluxos, bancos, filas. Se não sei, desenho com alguém até saber.',
+      ],
+    ],
+  ),
+  pillar(
+    'tec-indicadores',
+    'Indicadores',
+    'Ler e usar métricas de produto e sistema: o que medir, como interpretar e o que fazer com o número.',
+    'tecnica',
+    '#fda4af',
+    [
+      [
+        'Distingo métrica de vanity metric',
+        'Sei o que move decisão e o que só enfeita dashboard.',
+      ],
+      [
+        'Explico KPI vs OKR em alto nível',
+        'Indicador contínuo vs objetivo com prazo. Não misturo os dois no mesmo slide.',
+      ],
+      [
+        'Leio um dashboard sem panicar',
+        'Tendência, baseline e contexto. Um pico isolado não é necessariamente incidente.',
+      ],
+      [
+        'Ligo indicador a um fluxo do sistema',
+        'Sei qual endpoint, job ou tabela alimenta aquele número.',
+      ],
+      [
+        'Conheço latência, erro e throughput',
+        'Os três sinais clássicos de saúde de um serviço — e onde o time os vê.',
+      ],
+      [
+        'Uso percentis, não só média',
+        'p50, p95, p99. Média esconde a dor do usuário lento.',
+      ],
+      [
+        'Defino um critério de “bom o bastante”',
+        'Antes de otimizar, combino o que é aceitável para o caso.',
+      ],
+      [
+        'Conecto alerta a impacto',
+        'O que o usuário sente se esse indicador sair do trilho?',
+      ],
+      [
+        'Escolho granularidade com critério',
+        'Por minuto, hora, dia. Granularidade demais gera ruído; de menos, atraso.',
+      ],
+      [
+        'Evito otimizar o número errado',
+        'Se a métrica sobe e o produto piora, a métrica está mal desenhada.',
+      ],
+      [
+        'Levo indicador para a conversa da feature',
+        '“Como vamos saber que isso funcionou?” vira parte do aceite.',
+      ],
+      [
+        'Documento a fórmula quando ela não é óbvia',
+        'Numerador, denominador, filtro e janela. Sem isso, o time discute no escuro.',
+      ],
+    ],
+  ),
+  pillar(
+    'tec-processos-banco',
+    'Processos do banco',
+    'O que acontece dentro do SGBD no dia a dia: conexões, locks, jobs, autovacuum e saúde operacional.',
+    'tecnica',
+    '#67e8a3',
+    [
+      [
+        'Explico conexão, sessão e pool',
+        'Sei por que pool existe e o que acontece quando esgota.',
+      ],
+      [
+        'Identifico query lenta em execução',
+        'Sei onde olhar processos ativos / slow query no ambiente do time.',
+      ],
+      [
+        'Entendo lock e bloqueio em alto nível',
+        'Quem espera quem. Diferencio wait curto de deadlock.',
+      ],
+      [
+        'Sei o papel de transaction isolation',
+        'Read committed vs repeatable read em palavras simples, no contexto do produto.',
+      ],
+      [
+        'Distingo OLTP e relatório pesado',
+        'Não rodo dump analítico no horário de pico sem combinar.',
+      ],
+      [
+        'Conheço jobs e manutenção do banco',
+        'Backup, vacuum/analyze (ou equivalente), estatísticas — sei que existem e quem cuida.',
+      ],
+      [
+        'Leio tamanho de tabela e crescimento',
+        'Tabela que engorda sem critério vira custo e lentidão.',
+      ],
+      [
+        'Respeito limite de conexões',
+        'Cada serviço com pool próprio. Abrir conexão por request sem pool é armadilha.',
+      ],
+      [
+        'Sei o risco de long-running transaction',
+        'Transação aberta segura lock e atrasa vacuum. Fecho cedo.',
+      ],
+      [
+        'Uso prepared statement / query param',
+        'Plano reaproveitável e menos risco de injection.',
+      ],
+      [
+        'Entendo réplica e leitura em alto nível',
+        'Quando o time lê de réplica e o tradeoff de lag.',
+      ],
+      [
+        'Levo suspeita de banco com evidência',
+        'EXPLAIN, tempo, lock — não “o banco está lento” solto.',
+      ],
+    ],
+  ),
+  pillar(
+    'tec-ia',
+    'IA',
+    'Usar IA com critério no trabalho de backend: prompt, revisão, limite e onde ela ajuda de verdade.',
+    'tecnica',
+    '#a5b4fc',
+    [
+      [
+        'Uso IA como acelerador, não como autor final',
+        'Gero rascunho, eu reviso. O commit tem meu julgamento.',
+      ],
+      [
+        'Escrevo prompts com contexto suficiente',
+        'Stack, restrição, exemplo e o que NÃO fazer. Prompt vago gera código vago.',
+      ],
+      [
+        'Reviso código gerado como review de PR',
+        'Auth, edge case, teste, log, nomenclatura. IA também erra com confiança.',
+      ],
+      [
+        'Não colo secret no prompt',
+        'Token, connection string e dado sensível ficam fora do chat.',
+      ],
+      [
+        'Sei quando NÃO usar IA',
+        'Incidente quente, mudança cirúrgica em produção, regra de negócio que eu não entendo ainda.',
+      ],
+      [
+        'Peço explicação, não só o patch',
+        'Se eu não consigo explicar a mudança, ela não entra.',
+      ],
+      [
+        'Uso IA para explorar API e erro',
+        'Ler stack, sugerir hipótese, apontar doc — comigo validando no código real.',
+      ],
+      [
+        'Gero testes e depois endureço',
+        'A IA sugere casos; eu adiciono o caso que quebra de verdade no produto.',
+      ],
+      [
+        'Entendo alucinação',
+        'API inventada, flag inexistente, “best practice” desatualizada. Eu confiro.',
+      ],
+      [
+        'Respeito política do time / empresa',
+        'O que pode ir para ferramenta externa e o que fica no ambiente interno.',
+      ],
+      [
+        'Documento o que a IA ajudou quando importa',
+        'Em PR sensível, deixo claro o que foi gerado e o que foi validado.',
+      ],
+      [
+        'Melhora meu ofício, não substitui',
+        'Uso para ir mais longe no aprendizado — não para pular o entendimento.',
       ],
     ],
   ),
@@ -1356,7 +1260,7 @@ export const seedState: PlannerState = {
       status: 'feita',
       date: 'Ontem',
       deadline: '',
-      skillIds: ['tec-banco', 'tec-custos'],
+      skillIds: ['tec-banco'],
       notes: 'Aprendi a olhar seq scan vs index scan com o time.',
     },
   ],
@@ -1369,7 +1273,7 @@ export const seedState: PlannerState = {
       description:
         'Peguei a consulta mais pesada do relatório, rodei EXPLAIN com o time, comparei seq scan e index scan e propus um índice que fazia sentido no uso real.',
       skillsNote: 'EXPLAIN, plano de execução, índice, leitura de query com o time.',
-      skillIds: ['tec-banco', 'tec-custos', 'beh-colaboracao', 'beh-aprendizado'],
+      skillIds: ['tec-banco', 'beh-colaboracao', 'beh-aprendizado'],
     },
     {
       id: 'act-onboarding',
@@ -1385,4 +1289,4 @@ export const seedState: PlannerState = {
   removedCheckIds: [],
 }
 
-export const SEED_VERSION = 2
+export const SEED_VERSION = 4

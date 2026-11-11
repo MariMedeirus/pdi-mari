@@ -1,8 +1,10 @@
 import type { ReactNode } from 'react'
 import portrait from '../assets/mariana.png'
+import { useAuth } from '../auth'
 import type { SectionId } from '../types'
 import { BackupBar } from './Backup'
 import { LogoMark } from './Icons'
+import type { SyncStatus } from './SyncBridge'
 
 const nav: { id: SectionId; label: string; kicker: string }[] = [
   { id: 'inicio', label: 'Início', kicker: 'Visão geral' },
@@ -15,19 +17,42 @@ const nav: { id: SectionId; label: string; kicker: string }[] = [
   { id: 'atividades', label: 'Atividades', kicker: 'Prática' },
 ]
 
+function syncLabel(status: SyncStatus) {
+  switch (status) {
+    case 'hydrating':
+      return 'Sincronizando…'
+    case 'saving':
+      return 'Salvando na API…'
+    case 'synced':
+      return 'Sincronizado'
+    case 'error':
+      return 'Erro na sync'
+    case 'offline':
+      return 'Só neste navegador'
+    default:
+      return 'API'
+  }
+}
+
 export function Layout({
   section,
   onSection,
   menuOpen,
   onMenu,
+  syncStatus = 'idle',
+  syncDetail,
   children,
 }: {
   section: SectionId
   onSection: (id: SectionId) => void
   menuOpen: boolean
   onMenu: (open: boolean) => void
+  syncStatus?: SyncStatus
+  syncDetail?: string
   children: ReactNode
 }) {
+  const { user, logout } = useAuth()
+
   function go(id: SectionId) {
     onSection(id)
     onMenu(false)
@@ -72,10 +97,25 @@ export function Layout({
           ))}
         </nav>
         <div className="sidebar-foot">
+          <div className="account-box">
+            <div className="account-meta">
+              <strong>{user?.name ?? 'Conta'}</strong>
+              <span>{user?.email}</span>
+              <span
+                className={`sync-pill is-${syncStatus}`}
+                title={syncDetail}
+              >
+                {syncLabel(syncStatus)}
+              </span>
+            </div>
+            <button type="button" className="btn ghost sm" onClick={logout}>
+              Sair
+            </button>
+          </div>
           <BackupBar />
           <p className="sidebar-note">
-            Tudo fica salvo neste navegador. Baixe um backup para não perder o
-            plano.
+            Alterações sincronizam com a API e também ficam neste navegador.
+            Backup local continua disponível.
           </p>
         </div>
       </aside>
