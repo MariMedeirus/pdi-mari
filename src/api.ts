@@ -1,7 +1,10 @@
 import type { PlannerState } from './types'
 
-const API_URL = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, '') ??
-  'http://localhost:3333'
+const rawApiUrl = import.meta.env.VITE_API_URL as string | undefined
+if (!rawApiUrl?.trim()) {
+  throw new Error('VITE_API_URL não definida. Configure no .env / variáveis do deploy.')
+}
+const API_URL = rawApiUrl.replace(/\/$/, '')
 
 const TOKEN_KEY = 'mariana-mederios-token'
 
