@@ -1,12 +1,47 @@
 import type { PlannerState } from './types'
 
-const rawApiUrl = import.meta.env.VITE_API_URL as string | undefined
-if (!rawApiUrl?.trim()) {
-  throw new Error('VITE_API_URL não definida. Configure no .env / variáveis do deploy.')
-}
-const API_URL = rawApiUrl.replace(/\/$/, '')
-
 const TOKEN_KEY = 'mariana-mederios-token'
+const API_URL_KEY = 'mariana-mederios-api-url'
+
+function normalizeUrl(value: string): string {
+  return value.trim().replace(/\/$/, '')
+}
+
+/** URL embutida no build (Vercel) ou salva neste navegador. */
+export function getApiUrl(): string {
+  const fromEnv = (import.meta.env.VITE_API_URL as string | undefined)?.trim()
+  if (fromEnv) return normalizeUrl(fromEnv)
+
+  try {
+    const fromStorage = localStorage.getItem(API_URL_KEY)?.trim()
+    if (fromStorage) return normalizeUrl(fromStorage)
+  } catch {
+    /* ignore */
+  }
+
+  return ''
+}
+
+export function setApiUrl(url: string) {
+  const normalized = normalizeUrl(url)
+  if (!normalized) {
+    try {
+      localStorage.removeItem(API_URL_KEY)
+    } catch {
+      /* ignore */
+    }
+    return
+  }
+  try {
+    localStorage.setItem(API_URL_KEY, normalized)
+  } catch {
+    /* ignore */
+  }
+}
+
+export function hasApiUrl(): boolean {
+  return getApiUrl().length > 0
+}
 
 export type AuthUser = {
   id: string
@@ -56,8 +91,16 @@ async function request<T>(
   path: string,
   options: RequestInit & { token?: string | null } = {},
 ): Promise<T> {
+  const base = getApiUrl()
+  if (!base) {
+    throw new ApiError(
+      0,
+      'URL da API não configurada. Informe a URL do Render na tela de login.',
+    )
+  }
+
   const { token, headers, ...rest } = options
-  const res = await fetch(`${API_URL}${path}`, {
+  const res = await fetch(`${base}${path}`, {
     ...rest,
     headers: {
       'Content-Type': 'application/json',
@@ -88,7 +131,9 @@ async function request<T>(
 }
 
 export const api = {
-  url: API_URL,
+  get url() {
+    return getApiUrl()
+  },
 
   register(input: { name: string; email: string; password: string }) {
     return request<AuthResponse>('/auth/register', {
