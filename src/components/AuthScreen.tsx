@@ -135,7 +135,7 @@ export function AuthScreen() {
 
         <p className="auth-muted">
           Demo: mariana@example.com / mariana123 — API em{' '}
-          <code>{import.meta.env.VITE_API_URL ?? 'http://localhost:3333'}</code>
+          <code>{import.meta.env.VITE_API_URL}</code>
         </p>
       </div>
     </div>
