@@ -1095,6 +1095,26 @@ const pillars: SkillPillar[] = [
 ]
 
 export const seedState: PlannerState = {
+  books: [
+    {
+      id: 'book-ddia',
+      title: 'Designing Data-Intensive Applications',
+      platform: 'Martin Kleppmann',
+      status: 'futuro',
+      notes: 'Referência para dados, consistência e sistemas distribuídos — ler por capítulos ligados ao estágio.',
+      url: '',
+      deadline: '',
+    },
+    {
+      id: 'book-clean-code',
+      title: 'Código limpo',
+      platform: 'Robert C. Martin',
+      status: 'em_andamento',
+      notes: 'Focar em nomes, funções pequenas e o que o time já pratica no código do estágio.',
+      url: '',
+      deadline: '',
+    },
+  ],
   courses: [
     {
       id: 'course-http',
@@ -1289,4 +1309,4 @@ export const seedState: PlannerState = {
   removedCheckIds: [],
 }
 
-export const SEED_VERSION = 4
+export const SEED_VERSION = 5

@@ -1,6 +1,7 @@
 export type SectionId =
   | 'inicio'
   | 'cursos'
+  | 'livros'
   | 'skills-tec'
   | 'skills-beh'
   | 'metas'
@@ -15,6 +16,18 @@ export interface Course {
   title: string
   platform: string
   status: CourseStatus
+  notes: string
+  url: string
+  deadline: string
+}
+
+export type BookStatus = CourseStatus
+
+export interface Book {
+  id: string
+  title: string
+  platform: string
+  status: BookStatus
   notes: string
   url: string
   deadline: string
@@ -88,6 +101,7 @@ export interface PracticeActivity {
 
 export interface PlannerState {
   courses: Course[]
+  books: Book[]
   pillars: SkillPillar[]
   goals: Goal[]
   topics: Topic[]
@@ -100,6 +114,9 @@ export type PlannerAction =
   | { type: 'add-course'; course: Course }
   | { type: 'update-course'; course: Course }
   | { type: 'delete-course'; id: string }
+  | { type: 'add-book'; book: Book }
+  | { type: 'update-book'; book: Book }
+  | { type: 'delete-book'; id: string }
   | { type: 'toggle-check'; pillarId: string; checkId: string }
   | { type: 'add-check'; pillarId: string; check: SkillCheck }
   | { type: 'delete-check'; pillarId: string; checkId: string }

@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
 import { Activities } from './components/Activities'
+import { Books } from './components/Books'
 import { Courses } from './components/Courses'
 import { Dashboard } from './components/Dashboard'
 import { Goals } from './components/Goals'
@@ -35,6 +36,7 @@ function Pages() {
       >
         {section === 'inicio' && <Dashboard onNavigate={setSection} />}
         {section === 'cursos' && <Courses />}
+        {section === 'livros' && <Books />}
         {section === 'skills-tec' && <Skills category="tecnica" />}
         {section === 'skills-beh' && <Skills category="comportamental" />}
         {section === 'metas' && <Goals />}

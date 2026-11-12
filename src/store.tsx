@@ -57,6 +57,7 @@ function loadState(): PlannerState {
     const removedCheckIds = saved.removedCheckIds ?? []
     return {
       courses: saved.courses ?? seedState.courses,
+      books: saved.books ?? seedState.books,
       goals: saved.goals ?? seedState.goals,
       topics: saved.topics ?? seedState.topics,
       tasks: saved.tasks ?? seedState.tasks,
@@ -88,6 +89,20 @@ function reducer(state: PlannerState, action: PlannerAction): PlannerState {
       return {
         ...state,
         courses: state.courses.filter((course) => course.id !== action.id),
+      }
+    case 'add-book':
+      return { ...state, books: [action.book, ...(state.books ?? [])] }
+    case 'update-book':
+      return {
+        ...state,
+        books: (state.books ?? []).map((book) =>
+          book.id === action.book.id ? action.book : book,
+        ),
+      }
+    case 'delete-book':
+      return {
+        ...state,
+        books: (state.books ?? []).filter((book) => book.id !== action.id),
       }
     case 'toggle-check':
       return {
@@ -300,6 +315,7 @@ export function normalizeImportedState(raw: unknown): PlannerState {
 
   return {
     courses: inner.courses,
+    books: Array.isArray(inner.books) ? inner.books : seedState.books,
     goals: inner.goals,
     topics: inner.topics,
     tasks: Array.isArray(inner.tasks) ? inner.tasks : seedState.tasks,

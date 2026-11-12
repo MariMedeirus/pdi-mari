@@ -27,6 +27,7 @@ export function Dashboard({
   const beh = categoryProgress('comportamental')
   const pendingTopics = state.topics.filter((t) => t.status === 'pendente').length
   const doingCourses = state.courses.filter((c) => c.status === 'em_andamento').length
+  const doingBooks = (state.books ?? []).filter((b) => b.status === 'em_andamento').length
   const openGoals = state.goals.filter((g) => g.status !== 'concluida').length
   const weekGoals = state.goals.filter((g) => g.horizon === 'curto')
   const weekDone = weekGoals.filter((g) => g.status === 'concluida').length
@@ -115,6 +116,12 @@ export function Dashboard({
             {doingCourses}/{state.courses.length}
           </strong>
           <span>Cursos em andamento</span>
+        </button>
+        <button type="button" className="stat-card" onClick={() => onNavigate('livros')}>
+          <strong>
+            {doingBooks}/{(state.books ?? []).length}
+          </strong>
+          <span>Livros em andamento</span>
         </button>
         <button type="button" className="stat-card" onClick={() => onNavigate('topicos')}>
           <strong>{pendingTopics}</strong>

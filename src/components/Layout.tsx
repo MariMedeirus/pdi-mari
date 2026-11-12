@@ -8,6 +8,7 @@ import type { SyncStatus } from './SyncBridge'
 const nav: { id: SectionId; label: string; kicker: string }[] = [
   { id: 'inicio', label: 'Início', kicker: 'Visão geral' },
   { id: 'cursos', label: 'Cursos', kicker: 'Formação' },
+  { id: 'livros', label: 'Livros', kicker: 'Leitura' },
   { id: 'skills-tec', label: 'Skills técnicas', kicker: 'Ofício' },
   { id: 'skills-beh', label: 'Comportamentais', kicker: 'Postura' },
   { id: 'metas', label: 'Metas', kicker: 'Direção' },
