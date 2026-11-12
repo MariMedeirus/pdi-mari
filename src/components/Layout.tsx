@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react'
 import portrait from '../assets/mariana.png'
 import type { SectionId } from '../types'
-import { BackupBar } from './Backup'
 import { LogoMark } from './Icons'
 import type { SyncStatus } from './SyncBridge'
 
@@ -103,10 +102,8 @@ export function Layout({
               {syncLabel(syncStatus)}
             </span>
           </div>
-          <BackupBar />
           <p className="sidebar-note">
             Alterações sincronizam com a API e também ficam neste navegador.
-            Backup local continua disponível.
           </p>
         </div>
       </aside>

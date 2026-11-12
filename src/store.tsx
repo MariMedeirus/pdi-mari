@@ -283,15 +283,6 @@ export function uid(prefix: string) {
   return `${prefix}-${crypto.randomUUID()}`
 }
 
-export function buildBackup(state: PlannerState) {
-  return {
-    app: 'mariana-mederios-planner',
-    exportedAt: new Date().toISOString(),
-    seedVersion: SEED_VERSION,
-    state,
-  }
-}
-
 export function normalizeImportedState(raw: unknown): PlannerState {
   if (!raw || typeof raw !== 'object') throw new Error('invalid')
   const data = raw as Record<string, unknown>

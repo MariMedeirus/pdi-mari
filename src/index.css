@@ -287,22 +287,6 @@ select {
   border-top: 1px solid var(--line);
 }
 
-.backup-bar {
-  display: grid;
-  gap: 8px;
-}
-
-.backup-bar .btn {
-  width: 100%;
-}
-
-.backup-feedback {
-  margin: 0;
-  color: var(--accent-hot);
-  font-size: 0.72rem;
-  font-family: var(--mono);
-}
-
 .sidebar-note {
   color: var(--muted);
   font-size: 0.76rem;
