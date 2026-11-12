@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react'
 import portrait from '../assets/mariana.png'
-import { useAuth } from '../auth'
 import type { SectionId } from '../types'
 import { BackupBar } from './Backup'
 import { LogoMark } from './Icons'
@@ -51,8 +50,6 @@ export function Layout({
   syncDetail?: string
   children: ReactNode
 }) {
-  const { user, logout } = useAuth()
-
   function go(id: SectionId) {
     onSection(id)
     onMenu(false)
@@ -97,20 +94,13 @@ export function Layout({
           ))}
         </nav>
         <div className="sidebar-foot">
-          <div className="account-box">
-            <div className="account-meta">
-              <strong>{user?.name ?? 'Conta'}</strong>
-              <span>{user?.email}</span>
-              <span
-                className={`sync-pill is-${syncStatus}`}
-                title={syncDetail}
-              >
-                {syncLabel(syncStatus)}
-              </span>
-            </div>
-            <button type="button" className="btn ghost sm" onClick={logout}>
-              Sair
-            </button>
+          <div className="sync-box">
+            <span
+              className={`sync-pill is-${syncStatus}`}
+              title={syncDetail}
+            >
+              {syncLabel(syncStatus)}
+            </span>
           </div>
           <BackupBar />
           <p className="sidebar-note">

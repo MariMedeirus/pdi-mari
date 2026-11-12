@@ -160,13 +160,15 @@ select {
     linear-gradient(180deg, rgba(168, 85, 247, 0.08), transparent 28%),
     var(--sidebar);
   color: var(--ink);
-  padding: 24px 16px;
+  padding: 20px 16px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
   position: sticky;
   top: 0;
   height: 100svh;
+  max-height: 100svh;
+  overflow: hidden;
   border-right: 1px solid var(--line);
 }
 
@@ -227,9 +229,22 @@ select {
   font-family: var(--mono);
 }
 
+.app-mark,
+.brand,
+.sidebar-foot {
+  flex-shrink: 0;
+}
+
 .sidebar nav {
   display: grid;
   gap: 4px;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  align-content: start;
+  padding-right: 4px;
+  scrollbar-gutter: stable;
 }
 
 .sidebar nav button {
@@ -238,7 +253,7 @@ select {
   background: transparent;
   color: var(--ink);
   border-radius: 10px;
-  padding: 9px 12px;
+  padding: 8px 12px;
   display: grid;
   transition:
     background 0.18s var(--ease),
@@ -266,9 +281,10 @@ select {
 }
 
 .sidebar-foot {
-  margin-top: auto;
   display: grid;
-  gap: 12px;
+  gap: 10px;
+  padding-top: 4px;
+  border-top: 1px solid var(--line);
 }
 
 .backup-bar {
@@ -1463,6 +1479,9 @@ main {
     z-index: 30;
     transform: translateX(-105%);
     transition: transform 0.25s ease;
+    height: 100svh;
+    max-height: 100svh;
+    overflow: hidden;
   }
 
   .sidebar.is-open {
@@ -1518,116 +1537,14 @@ main {
   }
 }
 
-/* -- Auth + sync ------------------------------------------- */
+/* -- Sync status ------------------------------------------- */
 
-.auth-screen {
-  min-height: 100svh;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-}
-
-.auth-card {
-  width: min(420px, 100%);
-  display: grid;
-  gap: 18px;
-  padding: 24px;
-  border-radius: 16px;
-  border: 1px solid var(--line-strong);
-  background: #14141e;
-  box-shadow: var(--glow), 0 30px 80px rgba(0, 0, 0, 0.45);
-}
-
-.auth-brand {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.auth-brand strong {
-  display: block;
-  font-size: 1.15rem;
-}
-
-.auth-brand span {
-  display: block;
-  color: var(--muted);
-  font-size: 0.88rem;
-}
-
-.auth-tabs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  padding: 4px;
-  border-radius: 12px;
-  background: var(--inset);
-  border: 1px solid var(--line);
-}
-
-.auth-tabs button {
-  border: 0;
-  background: transparent;
-  color: var(--muted);
-  border-radius: 9px;
-  padding: 10px 12px;
-  font-weight: 500;
-}
-
-.auth-tabs button.is-active {
-  background: var(--accent-soft);
-  color: var(--accent-hot);
-  box-shadow: inset 0 0 0 1px rgba(192, 132, 252, 0.28);
-}
-
-.auth-error {
-  color: var(--danger);
-  font-size: 0.9rem;
-}
-
-.auth-muted {
-  color: var(--muted);
-  font-size: 0.82rem;
-  line-height: 1.45;
-}
-
-.auth-muted code {
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  color: var(--accent-hot);
-}
-
-.account-box {
-  display: grid;
-  gap: 10px;
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  background: var(--inset);
+.sync-box {
   margin-bottom: 10px;
 }
 
-.account-meta {
-  display: grid;
-  gap: 2px;
-  min-width: 0;
-}
-
-.account-meta strong {
-  font-size: 0.92rem;
-}
-
-.account-meta span {
-  color: var(--muted);
-  font-size: 0.78rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .sync-pill {
-  justify-self: start;
-  margin-top: 6px;
+  display: inline-block;
   padding: 3px 8px;
   border-radius: 999px;
   border: 1px solid var(--line);

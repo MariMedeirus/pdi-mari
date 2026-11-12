@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react'
 import { Activities } from './components/Activities'
-import { AuthScreen } from './components/AuthScreen'
 import { Courses } from './components/Courses'
 import { Dashboard } from './components/Dashboard'
 import { Goals } from './components/Goals'
@@ -9,7 +8,6 @@ import { SyncBridge, type SyncStatus } from './components/SyncBridge'
 import { Tasks } from './components/Tasks'
 import { Skills } from './components/Skills'
 import { Topics } from './components/Topics'
-import { AuthProvider, useAuth } from './auth'
 import { PlannerProvider } from './store'
 import type { SectionId } from './types'
 
@@ -48,24 +46,10 @@ function Pages() {
   )
 }
 
-function Gate() {
-  const { status } = useAuth()
-
-  if (status !== 'authenticated') {
-    return <AuthScreen />
-  }
-
+export default function App() {
   return (
     <PlannerProvider>
       <Pages />
     </PlannerProvider>
-  )
-}
-
-export default function App() {
-  return (
-    <AuthProvider>
-      <Gate />
-    </AuthProvider>
   )
 }

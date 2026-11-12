@@ -1,6 +1,5 @@
 import type { PlannerState } from './types'
 
-const TOKEN_KEY = 'mariana-mederios-token'
 const API_URL_KEY = 'mariana-mederios-api-url'
 
 function normalizeUrl(value: string): string {
@@ -43,18 +42,6 @@ export function hasApiUrl(): boolean {
   return getApiUrl().length > 0
 }
 
-export type AuthUser = {
-  id: string
-  name: string
-  email: string
-  createdAt: string
-}
-
-export type AuthResponse = {
-  user: AuthUser
-  token: string
-}
-
 export type PlannerResponse = {
   state: PlannerState
   updatedAt: string
@@ -70,41 +57,20 @@ export class ApiError extends Error {
   }
 }
 
-export function getStoredToken(): string | null {
-  try {
-    return localStorage.getItem(TOKEN_KEY)
-  } catch {
-    return null
-  }
-}
-
-export function setStoredToken(token: string | null) {
-  try {
-    if (token) localStorage.setItem(TOKEN_KEY, token)
-    else localStorage.removeItem(TOKEN_KEY)
-  } catch {
-    /* ignore */
-  }
-}
-
-async function request<T>(
-  path: string,
-  options: RequestInit & { token?: string | null } = {},
-): Promise<T> {
+async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const base = getApiUrl()
   if (!base) {
     throw new ApiError(
       0,
-      'URL da API não configurada. Informe a URL do Render na tela de login.',
+      'URL da API não configurada. Defina VITE_API_URL no deploy.',
     )
   }
 
-  const { token, headers, ...rest } = options
+  const { headers, ...rest } = options
   const res = await fetch(`${base}${path}`, {
     ...rest,
     headers: {
       'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...headers,
     },
   })
@@ -135,32 +101,13 @@ export const api = {
     return getApiUrl()
   },
 
-  register(input: { name: string; email: string; password: string }) {
-    return request<AuthResponse>('/auth/register', {
-      method: 'POST',
-      body: JSON.stringify(input),
-    })
+  getPlanner() {
+    return request<PlannerResponse>('/planner')
   },
 
-  login(input: { email: string; password: string }) {
-    return request<AuthResponse>('/auth/login', {
-      method: 'POST',
-      body: JSON.stringify(input),
-    })
-  },
-
-  me(token: string) {
-    return request<{ user: AuthUser }>('/auth/me', { token })
-  },
-
-  getPlanner(token: string) {
-    return request<PlannerResponse>('/me/planner', { token })
-  },
-
-  putPlanner(token: string, state: PlannerState) {
-    return request<PlannerResponse>('/me/planner', {
+  putPlanner(state: PlannerState) {
+    return request<PlannerResponse>('/planner', {
       method: 'PUT',
-      token,
       body: JSON.stringify(state),
     })
   },
