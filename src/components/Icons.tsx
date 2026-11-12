@@ -1,4 +1,5 @@
-import { useId } from 'react'
+import { useId, useState } from 'react'
+import { Modal } from './Modal'
 
 export function LogoMark({
   size = 40,
@@ -105,16 +106,47 @@ export function TrashIcon() {
   )
 }
 
-export function DeleteButton({ onClick }: { onClick: () => void }) {
+export function DeleteButton({
+  onClick,
+  label = 'este item',
+}: {
+  onClick: () => void
+  label?: string
+}) {
+  const [open, setOpen] = useState(false)
+
   return (
-    <button
-      type="button"
-      className="icon-btn danger"
-      onClick={onClick}
-      aria-label="Excluir"
-      title="Excluir"
-    >
-      <TrashIcon />
-    </button>
+    <>
+      <button
+        type="button"
+        className="icon-btn danger"
+        onClick={() => setOpen(true)}
+        aria-label="Excluir"
+        title="Excluir"
+      >
+        <TrashIcon />
+      </button>
+      <Modal open={open} title="Excluir" onClose={() => setOpen(false)}>
+        <p className="muted">
+          Você tem certeza que quer fazer isso? Isso remove {label} e não tem
+          como desfazer por aqui.
+        </p>
+        <div className="form-actions">
+          <button type="button" className="btn ghost" onClick={() => setOpen(false)}>
+            Cancelar
+          </button>
+          <button
+            type="button"
+            className="btn"
+            onClick={() => {
+              setOpen(false)
+              onClick()
+            }}
+          >
+            Excluir
+          </button>
+        </div>
+      </Modal>
+    </>
   )
 }
